@@ -6,17 +6,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import lombok.Data;
+import net.codeforyou.springbootthtmeleafcrud.Config.StringPrefixedSequenceIdGenerator;
 
 @Entity
 @Data
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq")
+    @GenericGenerator(name = "student_seq", strategy = "net.codeforyou.springbootthtmeleafcrud.Config.StringPrefixedSequenceIdGenerator", parameters = {
+            @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "50"),
+            @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "23EMP_"),
+            @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%04d") })
+    private String id;
 
     @Column(name = "name")
     @NotBlank(message = "Name is mandatory")

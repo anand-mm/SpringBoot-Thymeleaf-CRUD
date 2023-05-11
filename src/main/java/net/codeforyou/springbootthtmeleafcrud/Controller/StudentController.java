@@ -50,7 +50,7 @@ public class StudentController {
     }
 
     @GetMapping("edit/{id}")
-    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+    public String showUpdateForm(@PathVariable("id") String id, Model model) {
 
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Student Id:" + id));
@@ -59,7 +59,7 @@ public class StudentController {
     }
 
     @PostMapping("update/{id}")
-    public String updateStudent(@PathVariable("id") Long id, @Valid Student student, BindingResult result,
+    public String updateStudent(@PathVariable("id") String id, @Valid Student student, BindingResult result,
             Model model) {
         if (result.hasErrors()) {
             student.setId(id);
@@ -72,7 +72,7 @@ public class StudentController {
     }
 
     @GetMapping("delete/{id}")
-    public String deleteStudent(@PathVariable("id") Long id, Model model) {
+    public String deleteStudent(@PathVariable("id") String id, Model model) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Student Id:" + id));
         studentRepository.delete(student);
